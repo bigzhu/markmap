@@ -19,6 +19,10 @@ import { createTransformHooks, plugins as builtInPlugins } from './plugins';
 export { builtInPlugins };
 
 function cleanNode(node: INode, depth = 0): void {
+  if (node.t === 'root') {
+    // ignore Front Matter: drop all root paragraphs
+    node.c = node.c.filter((item) => item.t !== 'paragraph');
+  }
   if (node.t === 'heading') {
     // drop all paragraphs
     node.c = node.c.filter((item) => item.t !== 'paragraph');
